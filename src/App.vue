@@ -1,28 +1,56 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" class="small-container">
+    <h1>Famous Persons</h1>
+
+    <person-form />
+    <person-table :persons="persons" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  import PersonTable from '@/components/PersonTable.vue'
+  import PersonForm from '@/components/PersonForm.vue'
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  export default {
+    name: 'app',
+    components: {
+      PersonForm,
+      PersonTable,
+    },
+    data() {
+      return {
+        persons: [
+          {
+            id: 1,
+            name: 'Kobe Bryant',
+            bio: 'NBA Player',
+            dob: '8/23/1978',
+          },
+          {
+            id: 2,
+            name: 'Barack Obama',
+            bio: 'US President',
+            dob: '8/4/1961',
+          },
+          {
+            id: 3,
+            name: 'Bill Gates',
+            bio: 'Programmer',
+            dob: '10/28/1955',
+          },
+        ],
+      }
+    },
   }
-}
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  button {
+    background: #009435;
+    border: 1px solid #009435;
+  }
+
+  .small-container {
+    max-width: 680px;
+  }
 </style>
