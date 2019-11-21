@@ -2,8 +2,12 @@
   <div id="app" class="small-container">
     <h1>Famous Persons</h1>
 
-    <person-form />
-    <person-table :persons="persons" />
+    <person-form @add:person="addPerson" />
+    <person-table
+      :persons="persons"
+      @delete:person="deletePerson"
+      @edit:person="editPerson"
+    />
   </div>
 </template>
 
@@ -41,6 +45,27 @@
         ],
       }
     },
+    methods: {
+      addPerson(person) {
+        const lastId =
+          this.persons.length > 0
+            ? this.persons[this.persons.length - 1].id
+            : 0;
+        const id = lastId + 1;
+        const newPerson = { ...person, id };
+        this.persons = [...this.persons, newPerson]
+      },
+      deletePerson(id) {
+        this.persons = this.persons.filter(
+          person => person.id !== id
+        )
+      },
+      editPerson(id, updatedPerson) {
+        this.persons = this.persons.map(
+          person => person.id === id ? updatedPerson : person
+        )
+      }
+    }
   }
 </script>
 
