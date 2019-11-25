@@ -41,6 +41,8 @@
 </template>
 
 <script>
+  // import axios from 'axios'
+
   export default {
     name: 'person-table',
     props: {
@@ -62,6 +64,23 @@
       },
       editPerson(person) {
         if (person.name === '' || person.bio === '' || person.dob === '') return
+
+        // axios({
+        //   method: "PUT",
+        //   url: "http://127.0.0.1:3000/famouspersons/".concat(person.name),
+        //   params: {
+        //     name: person.name
+        //   },
+        //   data: {
+        //     name: person.name,
+        //     bio: person.bio,
+        //     dob: person.dob
+        //   },
+        //   headers: {
+        //     "content-type": "text/plain"
+        //   }
+        // });
+
         this.$emit('edit:person', person.id, person)
         this.editing = null
       }
