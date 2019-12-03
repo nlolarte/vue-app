@@ -14,6 +14,7 @@
 <script>
   import PersonTable from '@/components/PersonTable.vue'
   import PersonForm from '@/components/PersonForm.vue'
+  import axios from 'axios'
 
   export default {
     name: 'app',
@@ -23,48 +24,100 @@
     },
     data() {
       return {
-        persons: [
-          {
-            id: 1,
-            name: 'Kobe Bryant',
-            bio: 'NBA Player',
-            dob: '8/23/1978',
-          },
-          {
-            id: 2,
-            name: 'Barack Obama',
-            bio: 'US President',
-            dob: '8/4/1961',
-          },
-          {
-            id: 3,
-            name: 'Bill Gates',
-            bio: 'Programmer',
-            dob: '10/28/1955',
-          },
-        ],
+        persons: [],
       }
     },
+    mounted() {
+      this.getPersons()
+    },
     methods: {
+      getPersons() {
+        try {
+          axios.get('http://localhost:8080/famouspersons')
+            .then((response) => {
+              /* eslint-disable no-console */
+              console.log(response.data);
+              console.log(response.status);
+              console.log(response.statusText);
+              console.log(response.headers);
+              console.log(response.config);
+              /* eslint-enable no-console */
+              this.persons = response.data;
+            });
+        } catch (error) {
+          /* eslint-disable no-console */
+          console.error(error)
+          /* eslint-enable no-console */
+        }
+      },
+
       addPerson(person) {
-        const lastId =
-          this.persons.length > 0
-            ? this.persons[this.persons.length - 1].id
-            : 0;
-        const id = lastId + 1;
-        const newPerson = { ...person, id };
-        this.persons = [...this.persons, newPerson]
+        try {
+          axios.post("http://localhost:8080/famouspersons", person)
+            .then((response) => {
+            /* eslint-disable no-console */
+            console.log(response.data);
+            console.log(response.status);
+            console.log(response.statusText);
+            console.log(response.headers);
+            console.log(response.config);
+            /* eslint-enable no-console */
+            this.persons = [...this.persons, response.data];
+          });
+        } catch (error) {
+          /* eslint-disable no-console */
+          console.error(error)
+          /* eslint-enable no-console */
+        }
       },
-      deletePerson(id) {
-        this.persons = this.persons.filter(
-          person => person.id !== id
-        )
+
+      editPerson(name, updatedPerson) {
+        try {
+          /* eslint-disable no-console */
+          console.log(name);
+          /* eslint-enable no-console */
+          axios.put(`http://localhost:8080/famouspersons/${name}`, {
+            name: updatedPerson.name,
+            bio: updatedPerson.bio,
+            dob: updatedPerson.dob,
+          })
+            .then((response) => {
+            /* eslint-disable no-console */
+            console.log(response.data);
+            console.log(response.status);
+            console.log(response.statusText);
+            console.log(response.headers);
+            console.log(response.config);
+            /* eslint-enable no-console */
+            this.persons = this.persons.map(person => person.name === name ? response.data : person)
+          });
+        } catch (error) {
+          /* eslint-disable no-console */
+          console.error(error)
+          /* eslint-enable no-console */
+        }
       },
-      editPerson(id, updatedPerson) {
-        this.persons = this.persons.map(
-          person => person.id === id ? updatedPerson : person
-        )
-      }
+
+      deletePerson(name) {
+        try {
+          axios.delete(`http://localhost:8080/famouspersons/${name}`)
+            .then((response) => {
+            /* eslint-disable no-console */
+            console.log(response.data);
+            console.log(response.status);
+            console.log(response.statusText);
+            console.log(response.headers);
+            console.log(response.config);
+            /* eslint-enable no-console */
+            this.persons = this.persons.filter(person => person.name !== name)
+          });
+        } catch (error) {
+          /* eslint-disable no-console */
+          console.error(error)
+          /* eslint-enable no-console */
+        }
+      },
+
     }
   }
 </script>

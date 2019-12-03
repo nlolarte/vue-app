@@ -32,7 +32,7 @@
           </td>
           <td v-else>
             <button @click="editMode(person)">Edit</button>
-            <button @click="$emit('delete:person', person.id)">Delete</button>
+            <button @click="$emit('delete:person', person.name)">Delete</button>
           </td>
         </tr>
       </tbody>
@@ -41,8 +41,6 @@
 </template>
 
 <script>
-  // import axios from 'axios'
-
   export default {
     name: 'person-table',
     props: {
@@ -58,30 +56,15 @@
         this.cachedPerson = Object.assign({}, person)
         this.editing = person.id
       },
+
       cancelEdit(person) {
         Object.assign(person, this.cachedPerson)
         this.editing = null;
       },
+
       editPerson(person) {
         if (person.name === '' || person.bio === '' || person.dob === '') return
-
-        // axios({
-        //   method: "PUT",
-        //   url: "http://127.0.0.1:3000/famouspersons/".concat(person.name),
-        //   params: {
-        //     name: person.name
-        //   },
-        //   data: {
-        //     name: person.name,
-        //     bio: person.bio,
-        //     dob: person.dob
-        //   },
-        //   headers: {
-        //     "content-type": "text/plain"
-        //   }
-        // });
-
-        this.$emit('edit:person', person.id, person)
+        this.$emit('edit:person', person.name, person)
         this.editing = null
       }
     }

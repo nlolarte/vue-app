@@ -36,7 +36,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   export default {
     name: 'person-form',
     data() {
@@ -64,15 +63,6 @@
         this.$emit('add:person', this.person)
         this.$refs.first.focus()
 
-        axios({
-          method: "POST",
-          url: "http://127.0.0.1:3000/famouspersons",
-          data: this.person,
-          headers: {
-            "content-type": "text/plain"
-          }
-        });
-
         this.person = {
           name: '',
           bio: '',
@@ -82,6 +72,7 @@
         this.success = true
         this.submitting = false
       },
+
       clearStatus() {
         this.success = false
         this.error = false
